@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -8,424 +7,105 @@
 
 <style>
 :root {
-  --bg:#0b1020;
-  --card:#151f35;
-  --card2:#0e182b;
-  --line:#293653;
-  --text:#f2f5ff;
-  --muted:#9aa8c5;
-  --purple:#a78bfa;
-  --cyan:#67e8f9;
-  --green:#5ee6ad;
-  --red:#fb7185;
-  --gold:#facc15;
+  --bg:#0b1020; --card:#151f35; --card2:#0e182b;
+  --line:#293653; --text:#f2f5ff; --muted:#9aa8c5;
+  --purple:#a78bfa; --cyan:#67e8f9; --green:#5ee6ad;
+  --red:#fb7185; --gold:#facc15;
 }
+* { box-sizing:border-box; margin:0; padding:0; font-family:Arial,sans-serif; }
+body { background:radial-gradient(circle at top,#28204d,#0b1020 50%); color:var(--text); min-height:100vh; }
+body[data-kasta="mortal"] { background:radial-gradient(ellipse at top,#30405e,#0b1020 58%); --purple:#a5b4fc; --cyan:#7dd3fc; --gold:#fbbf24; }
+body[data-kasta="qi"] { background:radial-gradient(ellipse at top,#145044,#071a1b 58%); --purple:#6ee7b7; --cyan:#5eead4; --gold:#fde68a; }
+body[data-kasta="foundation"] { background:radial-gradient(ellipse at top,#3d286e,#100d27 58%); --purple:#c4b5fd; --cyan:#93c5fd; --gold:#fcd34d; }
+body[data-kasta="golden"] { background:radial-gradient(ellipse at top,#65451b,#1c1420 58%); --purple:#fbbf24; --cyan:#fde68a; --gold:#fff1a8; }
+body[data-kasta="nascent"] { background:radial-gradient(ellipse at top,#54265e,#120d25 58%); --purple:#e9a8ff; --cyan:#a5f3fc; --gold:#f9a8d4; }
+body[data-kasta] .player { background:linear-gradient(120deg,color-mix(in srgb,var(--purple) 35%,#17213a),#203c65,#124451); }
+.kasta-line { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:9px; font-size:11px; color:var(--muted); }
+.kasta-emblem { display:inline-flex; align-items:center; gap:5px; padding:5px 9px; border:1px solid color-mix(in srgb,var(--gold) 55%,transparent); border-radius:20px; color:var(--gold); background:#0b122455; font-weight:bold; letter-spacing:.3px; }
+.fold-card { padding:14px 17px; }
+.fold-card > summary { background:transparent; padding:3px 1px; margin:0; display:flex; gap:12px; justify-content:space-between; align-items:center; }
+.fold-card[open] > summary { background:transparent; margin-bottom:13px; padding-bottom:11px; border-bottom:1px solid var(--line); }
+.fold-card > summary h3 { font-size:14px; }
+.fold-card > summary .fold-hint { color:var(--muted); font-size:10px; font-weight:normal; text-align:right; }
+.fold-card > summary::after { content:"＋"; color:var(--cyan); font-size:16px; margin-left:5px; }
+.fold-card[open] > summary::after { content:"−"; }
+.history-tools { display:grid; grid-template-columns:1fr 145px; gap:8px; margin-bottom:11px; }
+.history-tools input,.history-tools select { margin:0; min-width:0; }
+@media(max-width:450px) { .history-tools { grid-template-columns:1fr; } .fold-card { padding:13px; } }
+.caste-perks { border-color:color-mix(in srgb,var(--gold) 45%,var(--line)); }
+.perk-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; margin-top:12px; }
+.perk { background:var(--card2); border:1px solid var(--line); border-radius:11px; padding:11px; min-width:0; }
+.perk strong { display:block; font-size:11px; margin-bottom:5px; }
+.perk span { color:var(--muted); font-size:10px; line-height:1.5; }
+.perk.locked { opacity:.52; }
+.perk-action { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+@media(max-width:450px) { .perk-grid { grid-template-columns:1fr; } }
 
-* {
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
-
-body {
-  background:radial-gradient(circle at top,#28204d,#0b1020 50%);
-  color:var(--text);
-  min-height:100vh;
-}
-
-.container {
-  width:min(1200px,94%);
-  margin:auto;
-  padding:25px 0 45px;
-}
-
-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin-bottom:25px;
-}
-
-.logo {
-  font-size:23px;
-  font-weight:bold;
-  color:var(--purple);
-}
-
-.subtitle {
-  color:var(--muted);
-  font-size:12px;
-  margin-top:5px;
-}
-
-.date {
-  font-size:12px;
-  color:var(--muted);
-}
-
-.card {
-  background:linear-gradient(145deg,#192440,#111a2e);
-  border:1px solid var(--line);
-  border-radius:17px;
-  padding:19px;
-  margin-bottom:16px;
-  min-width:0;
-}
-
-.hero {
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:16px;
-}
-
-.player {
-  background:linear-gradient(120deg,#39275e,#203c65,#124451);
-}
-
-.level {
-  color:var(--gold);
-  font-weight:bold;
-  font-size:12px;
-}
-
-.rank {
-  font-size:26px;
-  font-weight:bold;
-  margin:13px 0 5px;
-}
-
-.muted {
-  color:var(--muted);
-  font-size:12px;
-}
-
-.xp-info {
-  display:flex;
-  justify-content:space-between;
-  margin-top:20px;
-  font-size:11px;
-}
-
-.progress {
-  height:9px;
-  background:#0b1224;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:8px;
-}
-
-.bar {
-  height:100%;
-  width:0;
-  background:linear-gradient(90deg,var(--gold),#fb923c);
-  transition:.3s;
-}
-
-.stats {
-  display:flex;
-  gap:25px;
-  margin-top:20px;
-  flex-wrap:wrap;
-}
-
-.stats strong {
-  display:block;
-  font-size:18px;
-}
-
-.stats span {
-  color:var(--muted);
-  font-size:11px;
-}
-
-.balance {
-  font-size:33px;
-  font-weight:bold;
-  margin:15px 0;
-}
-
-.money-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.money-box {
-  background:var(--card2);
-  padding:12px;
-  border-radius:12px;
-}
-
-.money-box span {
-  font-size:11px;
-  color:var(--muted);
-}
-
-.money-box strong {
-  display:block;
-  margin-top:7px;
-  font-size:14px;
-}
-
-.green {color:var(--green)}
-.red {color:var(--red)}
-.gold {color:var(--gold)}
-
-.layout {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
-}
-
-.section-head {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:15px;
-}
-
+.container { width:min(1200px,94%); margin:auto; padding:25px 0 45px; }
+header { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:25px; }
+.logo { font-size:23px; font-weight:bold; color:var(--purple); }
+.subtitle { color:var(--muted); font-size:12px; margin-top:5px; }
+.date { font-size:12px; color:var(--muted); }
+.card { background:linear-gradient(145deg,#192440,#111a2e); border:1px solid var(--line); border-radius:17px; padding:19px; margin-bottom:16px; min-width:0; }
+.hero { display:grid; grid-template-columns:1.2fr .8fr; gap:16px; }
+.player { background:linear-gradient(120deg,#39275e,#203c65,#124451); }
+.level { color:var(--gold); font-weight:bold; font-size:12px; }
+.rank { font-size:26px; font-weight:bold; margin:13px 0 5px; }
+.muted { color:var(--muted); font-size:12px; }
+.xp-info { display:flex; justify-content:space-between; margin-top:20px; font-size:11px; }
+.progress { height:9px; background:#0b1224; border-radius:20px; overflow:hidden; margin-top:8px; }
+.bar { height:100%; width:0; background:linear-gradient(90deg,var(--gold),#fb923c); transition:.3s; }
+.stats { display:flex; gap:25px; margin-top:20px; flex-wrap:wrap; }
+.stats strong { display:block; font-size:18px; }
+.stats span { color:var(--muted); font-size:11px; }
+.balance { font-size:33px; font-weight:bold; margin:15px 0; }
+.money-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.money-box { background:var(--card2); padding:12px; border-radius:12px; }
+.money-box span { font-size:11px; color:var(--muted); }
+.money-box strong { display:block; margin-top:7px; font-size:14px; }
+.green {color:var(--green)} .red {color:var(--red)} .gold {color:var(--gold)}
+.layout { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.section-head { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:15px; }
 h3 {font-size:15px}
+button { border:0; cursor:pointer; border-radius:9px; padding:9px 12px; font-weight:bold; transition:.2s; }
+button:hover { filter:brightness(1.15); transform:translateY(-1px); }
+.add { background:linear-gradient(100deg,var(--purple),var(--cyan)); color:#10152a; font-size:11px; }
+.secondary { background:#293956; color:white; }
+.danger { background:#552b3d; color:#ffc3ce; }
+input,select { width:100%; background:#0b1426; border:1px solid #34445f; color:white; padding:11px; border-radius:9px; margin:7px 0 12px; outline:none; }
+input:focus,select:focus { border-color:var(--purple); }
+label { display:block; color:var(--muted); font-size:11px; }
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.list { display:flex; flex-direction:column; gap:9px; }
+.item { display:flex; align-items:center; gap:10px; padding:12px; background:var(--card2); border:1px solid var(--line); border-radius:11px; }
+.item-main { flex:1; min-width:0; }
+.item-title { font-size:12px; font-weight:bold; overflow-wrap:anywhere; }
+.item-meta { font-size:10px; color:var(--muted); margin-top:5px; }
+.delete { background:transparent; color:var(--red); padding:5px; font-size:16px; }
+.check { width:17px; height:17px; accent-color:var(--green); flex:none; }
+.completed .item-title { text-decoration:line-through; color:#7c8ba8; }
+.empty { padding:18px; text-align:center; border:1px dashed var(--line); border-radius:11px; color:var(--muted); font-size:11px; }
+details { margin-bottom:13px; }
+summary { cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; background:#263453; padding:11px 13px; border-radius:10px; font-size:12px; font-weight:bold; }
+summary::-webkit-details-marker { display:none; }
+details[open] summary { margin-bottom:12px; background:#34436a; }
+.form-area { padding:5px 2px; }
+.form-area button { margin-bottom:5px; }
+.goal { background:var(--card2); padding:13px; border:1px solid var(--line); border-radius:11px; }
+.goal-head { display:flex; justify-content:space-between; gap:10px; font-size:12px; font-weight:bold; }
+.goal .progress { margin:12px 0; }
+.goal .bar { background:linear-gradient(90deg,var(--green),var(--cyan)); }
+.goal small { color:var(--muted); }
+.goal-actions { display:flex; gap:7px; margin-top:10px; }
+.goal-actions input { margin:0; min-width:0; }
+.badge { padding:7px 10px; background:#293653; border-radius:20px; font-size:10px; color:var(--cyan); }
+.footer { text-align:center; font-size:10px; color:var(--muted); margin-top:25px; line-height:1.8; }
+.toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#283c5c; border:1px solid #657da4; border-radius:10px; padding:12px 18px; display:none; font-size:12px; z-index:10; max-width:90%; }
 
-button {
-  border:0;
-  cursor:pointer;
-  border-radius:9px;
-  padding:9px 12px;
-  font-weight:bold;
-  transition:.2s;
-}
-
-button:hover {
-  filter:brightness(1.15);
-  transform:translateY(-1px);
-}
-
-.add {
-  background:linear-gradient(100deg,var(--purple),var(--cyan));
-  color:#10152a;
-  font-size:11px;
-}
-
-.secondary {
-  background:#293956;
-  color:white;
-}
-
-.danger {
-  background:#552b3d;
-  color:#ffc3ce;
-}
-
-input,select {
-  width:100%;
-  background:#0b1426;
-  border:1px solid #34445f;
-  color:white;
-  padding:11px;
-  border-radius:9px;
-  margin:7px 0 12px;
-  outline:none;
-}
-
-input:focus,select:focus {
-  border-color:var(--purple);
-}
-
-label {
-  display:block;
-  color:var(--muted);
-  font-size:11px;
-}
-
-.form-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.list {
-  display:flex;
-  flex-direction:column;
-  gap:9px;
-}
-
-.item {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px;
-  background:var(--card2);
-  border:1px solid var(--line);
-  border-radius:11px;
-}
-
-.item-main {
-  flex:1;
-  min-width:0;
-}
-
-.item-title {
-  font-size:12px;
-  font-weight:bold;
-  overflow-wrap:anywhere;
-}
-
-.item-meta {
-  font-size:10px;
-  color:var(--muted);
-  margin-top:5px;
-}
-
-.delete {
-  background:transparent;
-  color:var(--red);
-  padding:5px;
-  font-size:16px;
-}
-
-.check {
-  width:17px;
-  height:17px;
-  accent-color:var(--green);
-  flex:none;
-}
-
-.completed .item-title {
-  text-decoration:line-through;
-  color:#7c8ba8;
-}
-
-.empty {
-  padding:18px;
-  text-align:center;
-  border:1px dashed var(--line);
-  border-radius:11px;
-  color:var(--muted);
-  font-size:11px;
-}
-
-details {
-  margin-bottom:13px;
-}
-
-summary {
-  cursor:pointer;
-  list-style:none;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:#263453;
-  padding:11px 13px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:bold;
-}
-
-summary::-webkit-details-marker {
-  display:none;
-}
-
-details[open] summary {
-  margin-bottom:12px;
-  background:#34436a;
-}
-
-.form-area {
-  padding:5px 2px;
-}
-
-.form-area button {
-  margin-bottom:5px;
-}
-
-.goal {
-  background:var(--card2);
-  padding:13px;
-  border:1px solid var(--line);
-  border-radius:11px;
-}
-
-.goal-head {
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  font-size:12px;
-  font-weight:bold;
-}
-
-.goal .progress {
-  margin:12px 0;
-}
-
-.goal .bar {
-  background:linear-gradient(90deg,var(--green),var(--cyan));
-}
-
-.goal small {
-  color:var(--muted);
-}
-
-.goal-actions {
-  display:flex;
-  gap:7px;
-  margin-top:10px;
-}
-
-.goal-actions input {
-  margin:0;
-  min-width:0;
-}
-
-.badge {
-  padding:7px 10px;
-  background:#293653;
-  border-radius:20px;
-  font-size:10px;
-  color:var(--cyan);
-}
-
-.footer {
-  text-align:center;
-  font-size:10px;
-  color:var(--muted);
-  margin-top:25px;
-  line-height:1.8;
-}
-
-.toast {
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#283c5c;
-  border:1px solid #657da4;
-  border-radius:10px;
-  padding:12px 18px;
-  display:none;
-  font-size:12px;
-  z-index:10;
-  max-width:90%;
-}
-
-@media(max-width:750px) {
-  .hero,.layout {
-    grid-template-columns:1fr;
-  }
-}
-
-@media(max-width:450px) {
-  .container {width:94%}
-  .card {padding:14px}
-  .rank {font-size:22px}
-  .balance {font-size:27px}
-  header {align-items:flex-start}
-}
+@media(max-width:750px) { .hero,.layout { grid-template-columns:1fr; } }
+@media(max-width:450px) { .container {width:94%} .card {padding:14px} .rank {font-size:22px} .balance {font-size:27px} header {align-items:flex-start} }
 </style>
 </head>
-
 <body>
 <div class="container">
 
@@ -437,43 +117,30 @@ details[open] summary {
   <div class="date" id="date"></div>
 </header>
 
-<!-- DASHBOARD -->
 <section class="hero">
-
   <div class="card player">
     <div class="level" id="level">LEVEL 1</div>
     <div class="rank" id="rank">Pemula Finansial</div>
-    <div class="muted">Your personal growth journey.</div>
-
+    <div class="kasta-line">
+      <span class="kasta-emblem" id="kastaName">✦ MORTAL</span>
+      <span id="kastaRange">Level 1–3 · Awal perjalanan</span>
+    </div>
+    <div class="muted" style="margin-top:8px">Your personal growth journey.</div>
     <div class="xp-info">
       <span>EXPERIENCE POINT</span>
       <span id="xpText">0 / 100 XP</span>
     </div>
-
-    <div class="progress">
-      <div class="bar" id="xpBar"></div>
-    </div>
-
+    <div class="progress"><div class="bar" id="xpBar"></div></div>
     <div class="stats">
-      <div>
-        <strong id="totalXP">0</strong>
-        <span>Total XP</span>
-      </div>
-      <div>
-        <strong id="streak">0 🔥</strong>
-        <span>Hari produktif</span>
-      </div>
-      <div>
-        <strong id="doneCount">0</strong>
-        <span>Misi selesai</span>
-      </div>
+      <div><strong id="totalXP">0</strong><span>Total XP</span></div>
+      <div><strong id="streak">0 🔥</strong><span>Hari produktif</span></div>
+      <div><strong id="doneCount">0</strong><span>Misi selesai</span></div>
     </div>
   </div>
 
   <div class="card">
     <div class="muted">💰 TOTAL SALDO</div>
     <div class="balance" id="balance">Rp0</div>
-
     <div class="money-grid">
       <div class="money-box">
         <span>↗ Pemasukan</span>
@@ -485,21 +152,28 @@ details[open] summary {
       </div>
     </div>
   </div>
+</section>
 
+<section class="card caste-perks">
+  <div class="section-head">
+    <h3>✧ Perk Kasta</h3>
+    <span class="badge" id="perkStatus">Kemampuan berkembang bersama level</span>
+  </div>
+  <div class="perk-grid" id="perkGrid"></div>
+  <div class="muted" id="monthlyInsight" style="margin-top:12px"></div>
+  <div class="perk-action">
+    <button class="secondary" id="exportData" type="button" disabled>🔒 Ekspor Data · Level 10</button>
+    <span class="muted" id="exportHint">Terbuka di kasta Golden Core.</span>
+  </div>
 </section>
 
 <main class="layout">
-
-<!-- KOLOM KIRI -->
 <div>
-
-  <!-- DAILY QUEST -->
   <section class="card">
     <div class="section-head">
       <h3>⚡ Daily Quests</h3>
       <span class="badge" id="dailyCount">0 selesai</span>
     </div>
-
     <details>
       <summary>＋ Tambah Misi Harian</summary>
       <form id="dailyForm" class="form-area">
@@ -508,17 +182,14 @@ details[open] summary {
         <button class="add" type="submit">Buat Misi</button>
       </form>
     </details>
-
     <div class="list" id="dailyList"></div>
   </section>
 
-  <!-- WEEKLY QUEST -->
   <section class="card">
     <div class="section-head">
       <h3>📅 Weekly Missions</h3>
       <span class="badge" id="weeklyCount">0 selesai</span>
     </div>
-
     <details>
       <summary>＋ Tambah Misi Mingguan</summary>
       <form id="weeklyForm" class="form-area">
@@ -527,23 +198,19 @@ details[open] summary {
         <button class="add" type="submit">Buat Misi</button>
       </form>
     </details>
-
     <div class="list" id="weeklyList"></div>
   </section>
 
-  <!-- STUDY PLANNER -->
   <section class="card">
     <div class="section-head">
       <h3>📚 Study Planner</h3>
       <span class="badge">LEARNING</span>
     </div>
-
     <details>
       <summary>＋ Tambah Jadwal Belajar</summary>
       <form id="studyForm" class="form-area">
         <label>Mata pelajaran / materi</label>
         <input id="studyName" placeholder="Contoh: Subnetting" required>
-
         <div class="form-grid">
           <div>
             <label>Tanggal</label>
@@ -554,21 +221,17 @@ details[open] summary {
             <input type="time" id="studyTime" required>
           </div>
         </div>
-
         <button class="add" type="submit">Tambah Jadwal</button>
       </form>
     </details>
-
     <div class="list" id="studyList"></div>
   </section>
 
-  <!-- HABIT TRACKER -->
   <section class="card">
     <div class="section-head">
       <h3>🌱 Habit Tracker</h3>
       <span class="badge">BUILD HABITS</span>
     </div>
-
     <details>
       <summary>＋ Tambah Kebiasaan</summary>
       <form id="habitForm" class="form-area">
@@ -577,25 +240,16 @@ details[open] summary {
         <button class="add" type="submit">Tambah Kebiasaan</button>
       </form>
     </details>
-
     <div class="list" id="habitList"></div>
   </section>
-
 </div>
 
-<!-- KOLOM KANAN -->
 <div>
-
-  <!-- KEUANGAN -->
   <section class="card">
-    <div class="section-head">
-      <h3>💸 Manajemen Uang</h3>
-    </div>
-
+    <div class="section-head"><h3>💸 Manajemen Uang</h3></div>
     <form id="moneyForm">
       <label>Nama transaksi</label>
       <input id="moneyName" placeholder="Contoh: Uang jajan" required>
-
       <div class="form-grid">
         <div>
           <label>Jumlah (Rp)</label>
@@ -609,7 +263,6 @@ details[open] summary {
           </select>
         </div>
       </div>
-
       <label>Kategori</label>
       <select id="moneyCategory">
         <option>Makanan</option>
@@ -619,86 +272,62 @@ details[open] summary {
         <option>Tabungan</option>
         <option>Lainnya</option>
       </select>
-
       <button class="add" type="submit">＋ Catat Transaksi</button>
     </form>
   </section>
 
-  <!-- HISTORY -->
-  <section class="card">
-    <div class="section-head">
-      <h3>📊 Riwayat Transaksi</h3>
+  <details class="card fold-card">
+    <summary><h3>📊 Riwayat Transaksi</h3><span class="fold-hint" id="transactionCount">Buka untuk melihat detail</span></summary>
+    <div class="history-tools">
+      <input id="transactionSearch" type="search" placeholder="Cari nama atau kategori...">
+      <select id="transactionFilter" aria-label="Filter transaksi">
+        <option value="all">Semua transaksi</option>
+        <option value="in">Pemasukan</option>
+        <option value="out">Pengeluaran</option>
+      </select>
     </div>
     <div class="list" id="moneyList"></div>
-  </section>
+  </details>
 
-  <!-- BUDGET -->
-  <section class="card">
-    <div class="section-head">
-      <h3>🎯 Anggaran Harian</h3>
-    </div>
-
+  <details class="card fold-card">
+    <summary><h3>🎯 Anggaran Harian</h3><span class="fold-hint">Atur batas pengeluaran</span></summary>
     <label>Batas pengeluaran (Rp)</label>
     <input type="number" id="budgetInput" min="0" placeholder="Contoh: 20000">
-
     <button class="secondary" id="saveBudget">Simpan Anggaran</button>
-
-    <div class="progress">
-      <div class="bar" id="budgetBar"></div>
-    </div>
-
+    <div class="progress"><div class="bar" id="budgetBar"></div></div>
     <div class="muted" id="budgetText">Belum ada anggaran.</div>
-  </section>
+  </details>
 
-  <!-- SAVING GOALS -->
-  <section class="card">
-    <div class="section-head">
-      <h3>🏆 Saving Goals</h3>
-    </div>
-
+  <details class="card fold-card">
+    <summary><h3>🏆 Saving Goals</h3><span class="fold-hint">Target dan progres tabungan</span></summary>
     <details>
       <summary>＋ Tambah Target Tabungan</summary>
       <form id="goalForm" class="form-area">
         <label>Nama target</label>
         <input id="goalName" placeholder="Contoh: Beli buku" required>
-
         <label>Target uang (Rp)</label>
         <input id="goalTarget" type="number" min="1" required>
-
         <button class="add" type="submit">Buat Target</button>
       </form>
     </details>
-
     <div class="list" id="goalList"></div>
-  </section>
+  </details>
 
-  <!-- ACHIEVEMENTS -->
-  <section class="card">
-    <div class="section-head">
-      <h3>🏅 Achievements</h3>
-      <span class="badge" id="achievementCount">0 unlocked</span>
-    </div>
+  <details class="card fold-card">
+    <summary><h3>🏅 Achievements</h3><span class="fold-hint" id="achievementCount">0 unlocked</span></summary>
     <div class="list" id="achievementList"></div>
-  </section>
-
+  </details>
 </div>
 </main>
 
 <div class="footer">
-  DOMPETPELAJAR V3 · GAMING PRODUCTIVITY EDITION<br>
+  DOMPETPELAJAR V4 · CULTIVATION PRODUCTIVITY EDITION<br>
   Data tersimpan secara lokal pada browser ini.
 </div>
-
 </div>
-
 <div class="toast" id="toast"></div>
-
 <script>
 "use strict";
-
-/* =========================
-   UTILITIES
-========================= */
 
 const $ = id => document.getElementById(id);
 
@@ -738,7 +367,6 @@ function notify(message) {
   const el = $("toast");
   el.textContent = message;
   el.style.display = "block";
-
   clearTimeout(window.toastTimer);
   window.toastTimer = setTimeout(()=>{
     el.style.display="none";
@@ -747,27 +375,15 @@ function notify(message) {
 
 function save() {
   const state = {
-    missions,
-    studies,
-    habits,
-    transactions,
-    goals,
-    budget,
-    xp,
-    history,
-    rewarded
+    missions, studies, habits, transactions,
+    goals, budget, xp, history, rewarded
   };
-
   try {
     localStorage.setItem("dompetV3",JSON.stringify(state));
   } catch {
     notify("Penyimpanan browser tidak tersedia atau penuh.");
   }
 }
-
-/* =========================
-   DATA
-========================= */
 
 const old = load("dompetV3",{});
 
@@ -791,29 +407,16 @@ if(!Array.isArray(rewarded)) rewarded=[];
 
 $("date").textContent =
   new Date().toLocaleDateString("id-ID",{
-    weekday:"long",
-    day:"numeric",
-    month:"long"
+    weekday:"long",day:"numeric",month:"long"
   });
 
 $("studyDate").value=today();
 
-/* =========================
-   XP SYSTEM
-========================= */
-
 function giveXP(id, amount, reason) {
   if(rewarded.includes(id)) return;
-
   xp += amount;
   rewarded.push(id);
-
-  history.push({
-    date:today(),
-    reason,
-    amount
-  });
-
+  history.push({date:today(),reason,amount});
   save();
   notify("Misi selesai! +"+amount+" XP 🎉");
   render();
@@ -823,72 +426,112 @@ function levelData() {
   const level=Math.floor(xp/100)+1;
   const current=xp%100;
 
-  const ranks=[
-    "Pemula Finansial",
-    "Penjelajah Hemat",
-    "Strategist Keuangan",
-    "Master Produktif",
-    "Legend Pelajar"
+  const castes = [
+    {id:"mortal",name:"Mortal",emblem:"✦",range:"Level 1–3 · Awal perjalanan",title:["Pemula Finansial","Pengamat Keuangan","Pelajar Disiplin"]},
+    {id:"qi",name:"Qi Refinement",emblem:"❖",range:"Level 4–6 · Penguatan dasar",title:["Pengumpul Qi","Pengatur Keuangan","Strategist Produktif"]},
+    {id:"foundation",name:"Foundation Establishment",emblem:"✧",range:"Level 7–9 · Fondasi kokoh",title:["Pembentuk Fondasi","Perencana Andal","Ahli Keseimbangan"]},
+    {id:"golden",name:"Golden Core",emblem:"✺",range:"Level 10–12 · Inti kekuatan",title:["Inti Keuangan","Master Produktivitas","Penguasa Disiplin"]},
+    {id:"nascent",name:"Nascent Soul",emblem:"☼",range:"Level 13+ · Tahap lanjutan",title:["Jiwa Terbangun","Arsitek Kehidupan","Legenda Pelajar"]}
   ];
 
-  const rank=ranks[Math.min(Math.floor((level-1)/3),4)];
+  const caste=castes[Math.min(Math.floor((level-1)/3),castes.length-1)];
+  const rank=caste.title[(level-1)%3];
 
+  document.body.dataset.kasta=caste.id;
   $("level").textContent="LEVEL "+level;
   $("rank").textContent=rank;
+  $("kastaName").textContent=caste.emblem+" "+caste.name.toUpperCase();
+  $("kastaRange").textContent=caste.range;
+  renderCasteFeatures(level);
   $("totalXP").textContent=xp;
   $("xpText").textContent=current+" / 100 XP";
   $("xpBar").style.width=current+"%";
 
   const completed=missions.filter(m=>
     m.donePeriod===periodKey(m.period)
-  ).length + studies.filter(s=>s.done).length;
+  ).length+studies.filter(s=>s.done).length;
 
   $("doneCount").textContent=completed;
-
   $("streak").textContent=streakCount()+" 🔥";
 }
 
+function renderCasteFeatures(level) {
+  const perks=[
+    {min:1,title:"Mortal · Fondasi",desc:"Misi harian, jadwal belajar, habit, dan pencatatan uang."},
+    {min:4,title:"Qi Refinement · Pencarian transaksi",desc:"Cari transaksi berdasarkan nama/kategori dan saring pemasukan atau pengeluaran."},
+    {min:7,title:"Foundation · Insight bulanan",desc:"Lihat total pemasukan dan pengeluaran pada bulan berjalan."},
+    {min:10,title:"Golden Core · Ekspor data",desc:"Unduh cadangan data DompetPelajar dalam format JSON."},
+    {min:13,title:"Nascent Soul · Pengelolaan lanjutan",desc:"Tahap berikutnya untuk fitur impor dan pemulihan data."}
+  ];
+
+  const grid=$("perkGrid");
+  grid.replaceChildren();
+
+  perks.forEach(perk=>{
+    const unlocked=level>=perk.min;
+    const box=document.createElement("div");
+    box.className="perk"+(unlocked?"":" locked");
+    const title=document.createElement("strong");
+    title.textContent=(unlocked?"✓ ":"🔒 ")+perk.title;
+    const desc=document.createElement("span");
+    desc.textContent=perk.desc;
+    box.append(title,desc);
+    grid.append(box);
+  });
+
+  const search=$("transactionSearch");
+  const filter=$("transactionFilter");
+  const searchUnlocked=level>=4;
+  search.disabled=!searchUnlocked;
+  filter.disabled=!searchUnlocked;
+  search.placeholder=searchUnlocked?"Cari nama atau kategori...":"Terbuka mulai Level 4";
+  if(!searchUnlocked) {search.value="";filter.value="all";}
+
+  const exportButton=$("exportData");
+  exportButton.disabled=level<10;
+  exportButton.textContent=level>=10?"⬇ Ekspor Data JSON":"🔒 Ekspor Data · Level 10";
+  $("exportHint").textContent=level>=10
+    ?"Cadangkan data sebelum berpindah browser/perangkat."
+    :"Terbuka saat mencapai Golden Core (Level 10).";
+
+  if(level>=7) {
+    const month=today().slice(0,7);
+    const monthIncome=transactions.filter(t=>t.type==="in"&&t.date.startsWith(month)).reduce((sum,t)=>sum+t.amount,0);
+    const monthExpense=transactions.filter(t=>t.type==="out"&&t.date.startsWith(month)).reduce((sum,t)=>sum+t.amount,0);
+    $("monthlyInsight").textContent="📈 Insight bulan ini: pemasukan "+money(monthIncome)+" · pengeluaran "+money(monthExpense)+" · selisih "+money(monthIncome-monthExpense)+".";
+  } else {
+    $("monthlyInsight").textContent="🔒 Insight keuangan bulanan terbuka mulai Foundation Establishment (Level 7).";
+  }
+}
+
 function periodKey(period) {
-  return period==="daily" ? today() : weekKey();
+  return period==="daily"?today():weekKey();
 }
 
 function streakCount() {
   const days=[...new Set(history.map(x=>x.date))].sort().reverse();
-
-  if(!days.length) return 0;
+  if(!days.length)return 0;
 
   let cursor=new Date(today()+"T00:00:00");
   let count=0;
 
   if(days[0]!==today()) {
     cursor.setDate(cursor.getDate()-1);
-    if(days[0]!==todayFromDate(cursor)) return 0;
+    if(days[0]!==todayFromDate(cursor))return 0;
   }
 
   for(const day of days) {
     if(day===todayFromDate(cursor)) {
       count++;
       cursor.setDate(cursor.getDate()-1);
-    } else if(day<todayFromDate(cursor)) {
-      break;
-    }
+    } else if(day<todayFromDate(cursor)) break;
   }
-
   return count;
 }
 
-/* =========================
-   MISSIONS
-========================= */
-
+/* MISSIONS */
 function addMission(name,period) {
-  missions.push({
-    id:crypto.randomUUID(),
-    name,
-    period,
-    donePeriod:null
-  });
-
+  missions.push({id:crypto.randomUUID(),name,period,donePeriod:null});
   save();
   renderMissions();
 }
@@ -900,7 +543,6 @@ function renderMissionGroup(period,elementId,countId) {
   const items=missions.filter(m=>m.period===period);
   const key=periodKey(period);
   const completed=items.filter(m=>m.donePeriod===key).length;
-
   $(countId).textContent=completed+"/"+items.length+" selesai";
 
   if(!items.length) {
@@ -934,15 +576,12 @@ function renderMissionGroup(period,elementId,countId) {
 
     const main=document.createElement("div");
     main.className="item-main";
-
     const title=document.createElement("div");
     title.className="item-title";
     title.textContent=m.name;
-
     const meta=document.createElement("div");
     meta.className="item-meta";
     meta.textContent=done?"Selesai ✓":"+10 XP jika selesai";
-
     main.append(title,meta);
 
     const del=document.createElement("button");
@@ -970,7 +609,6 @@ $("dailyForm").onsubmit=e=>{
   e.preventDefault();
   const name=$("dailyName").value.trim();
   if(!name)return;
-
   addMission(name,"daily");
   $("dailyName").value="";
   notify("Misi harian ditambahkan!");
@@ -980,15 +618,11 @@ $("weeklyForm").onsubmit=e=>{
   e.preventDefault();
   const name=$("weeklyName").value.trim();
   if(!name)return;
-
   addMission(name,"weekly");
   $("weeklyName").value="";
   notify("Misi mingguan ditambahkan!");
 };
-
-/* =========================
-   STUDY PLANNER
-========================= */
+  /* STUDY PLANNER */
 
 $("studyForm").onsubmit=e=>{
   e.preventDefault();
@@ -1077,9 +711,7 @@ function renderStudies() {
   });
 }
 
-/* =========================
-   HABIT TRACKER
-========================= */
+/* HABIT TRACKER */
 
 $("habitForm").onsubmit=e=>{
   e.preventDefault();
@@ -1163,9 +795,7 @@ function renderHabits() {
   });
 }
 
-/* =========================
-   FINANCE
-========================= */
+/* FINANCE */
 
 $("moneyForm").onsubmit=e=>{
   e.preventDefault();
@@ -1211,14 +841,27 @@ function renderFinance() {
   const list=$("moneyList");
   list.replaceChildren();
 
-  if(!transactions.length) {
+  const search=($("transactionSearch")?.value||"").trim().toLowerCase();
+  const filter=$("transactionFilter")?.value||"all";
+
+  const filtered=[...transactions].reverse().filter(t=>{
+    const matchesSearch=(t.name+" "+t.category).toLowerCase().includes(search);
+    const matchesType=filter==="all"||t.type===filter;
+    return matchesSearch&&matchesType;
+  });
+
+  $("transactionCount").textContent=transactions.length+" transaksi · "+filtered.length+" ditampilkan";
+
+  if(!filtered.length) {
     const empty=document.createElement("div");
     empty.className="empty";
-    empty.textContent="Belum ada transaksi.";
+    empty.textContent=transactions.length
+      ?"Tidak ada transaksi yang cocok."
+      :"Belum ada transaksi.";
     list.append(empty);
   }
 
-  [...transactions].reverse().slice(0,30).forEach(t=>{
+  filtered.slice(0,100).forEach(t=>{
     const row=document.createElement("div");
     row.className="item";
 
@@ -1270,6 +913,31 @@ function renderFinance() {
     :"Belum ada anggaran.";
 }
 
+$("transactionSearch").addEventListener("input",renderFinance);
+$("transactionFilter").addEventListener("change",renderFinance);
+
+$("exportData").onclick=()=>{
+  if(xp<900) {
+    notify("Fitur ekspor terbuka mulai Level 10.");
+    return;
+  }
+
+  const backup={
+    exportedAt:new Date().toISOString(),
+    version:"DompetPelajar V4",
+    missions,studies,habits,transactions,goals,budget,xp,history,rewarded
+  };
+
+  const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="dompetpelajar-backup-"+today()+".json";
+  a.click();
+  URL.revokeObjectURL(url);
+  notify("Cadangan data berhasil dibuat.");
+};
+
 $("saveBudget").onclick=()=>{
   const n=Number($("budgetInput").value);
 
@@ -1283,12 +951,7 @@ $("saveBudget").onclick=()=>{
   renderFinance();
   notify("Anggaran berhasil disimpan.");
 };
-
-/* =========================
-   SAVING GOALS
-========================= */
-
-$("goalForm").onsubmit=e=>{
+  $("goalForm").onsubmit=e=>{
   e.preventDefault();
 
   const name=$("goalName").value.trim();
@@ -1397,9 +1060,7 @@ function renderGoals() {
   });
 }
 
-/* =========================
-   ACHIEVEMENTS
-========================= */
+/* ACHIEVEMENTS */
 
 function renderAchievements() {
   const list=$("achievementList");
@@ -1481,9 +1142,7 @@ function renderAchievements() {
   });
 }
 
-/* =========================
-   MAIN RENDER
-========================= */
+/* MAIN RENDER */
 
 function render() {
   levelData();
