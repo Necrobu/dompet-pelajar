@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -32,6 +33,33 @@ body {
   color:var(--text);
   min-height:100vh;
 }
+/* V4: tema kasta otomatis */
+body[data-kasta="mortal"] { background:radial-gradient(ellipse at top,#30405e,#0b1020 58%); --purple:#a5b4fc; --cyan:#7dd3fc; --gold:#fbbf24; }
+body[data-kasta="qi"] { background:radial-gradient(ellipse at top,#145044,#071a1b 58%); --purple:#6ee7b7; --cyan:#5eead4; --gold:#fde68a; }
+body[data-kasta="foundation"] { background:radial-gradient(ellipse at top,#3d286e,#100d27 58%); --purple:#c4b5fd; --cyan:#93c5fd; --gold:#fcd34d; }
+body[data-kasta="golden"] { background:radial-gradient(ellipse at top,#65451b,#1c1420 58%); --purple:#fbbf24; --cyan:#fde68a; --gold:#fff1a8; }
+body[data-kasta="nascent"] { background:radial-gradient(ellipse at top,#54265e,#120d25 58%); --purple:#e9a8ff; --cyan:#a5f3fc; --gold:#f9a8d4; }
+body[data-kasta] .player { background:linear-gradient(120deg,color-mix(in srgb,var(--purple) 35%,#17213a),#203c65,#124451); }
+.kasta-line { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:9px; font-size:11px; color:var(--muted); }
+.kasta-emblem { display:inline-flex; align-items:center; gap:5px; padding:5px 9px; border:1px solid color-mix(in srgb,var(--gold) 55%,transparent); border-radius:20px; color:var(--gold); background:#0b122455; font-weight:bold; letter-spacing:.3px; }
+.fold-card { padding:14px 17px; }
+.fold-card > summary { background:transparent; padding:3px 1px; margin:0; display:flex; gap:12px; justify-content:space-between; align-items:center; }
+.fold-card[open] > summary { background:transparent; margin-bottom:13px; padding-bottom:11px; border-bottom:1px solid var(--line); }
+.fold-card > summary h3 { font-size:14px; }
+.fold-card > summary .fold-hint { color:var(--muted); font-size:10px; font-weight:normal; text-align:right; }
+.fold-card > summary::after { content:"＋"; color:var(--cyan); font-size:16px; margin-left:5px; }
+.fold-card[open] > summary::after { content:"−"; }
+.history-tools { display:grid; grid-template-columns:1fr 145px; gap:8px; margin-bottom:11px; }
+.history-tools input,.history-tools select { margin:0; min-width:0; }
+@media(max-width:450px) { .history-tools { grid-template-columns:1fr; } .fold-card { padding:13px; } }
+.caste-perks { border-color:color-mix(in srgb,var(--gold) 45%,var(--line)); }
+.perk-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; margin-top:12px; }
+.perk { background:var(--card2); border:1px solid var(--line); border-radius:11px; padding:11px; min-width:0; }
+.perk strong { display:block; font-size:11px; margin-bottom:5px; }
+.perk span { color:var(--muted); font-size:10px; line-height:1.5; }
+.perk.locked { opacity:.52; }
+.perk-action { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+@media(max-width:450px) { .perk-grid { grid-template-columns:1fr; } }
 
 .container {
   width:min(1200px,94%);
@@ -272,6 +300,8 @@ label {
   overflow-wrap:anywhere;
 }
 
+}
+
 .item-meta {
   font-size:10px;
   color:var(--muted);
@@ -296,7 +326,8 @@ label {
   text-decoration:line-through;
   color:#7c8ba8;
 }
-  .empty {
+
+.empty {
   padding:18px;
   text-align:center;
   border:1px dashed var(--line);
@@ -421,7 +452,6 @@ details[open] summary {
   .balance {font-size:27px}
   header {align-items:flex-start}
 }
-
 /* PERSONAL GROWTH */
 .growth-hero{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
 .growth-stat{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:13px}
@@ -450,80 +480,6 @@ details[open] summary {
 @media(max-width:450px){.growth-form{grid-template-columns:1fr}.growth-form .full{grid-column:auto}.category-row{grid-template-columns:95px 1fr 22px}}
 
 
-/* =========================
-   CULTIVATION REALM EVOLUTION
-========================= */
-:root{--realm-hue:258;--realm-glow:rgba(167,139,250,.22)}
-body{
-  background:
-    radial-gradient(ellipse at 12% 0%,hsla(var(--realm-hue),75%,34%,.40),transparent 42%),
-    radial-gradient(ellipse at 88% 12%,hsla(calc(var(--realm-hue) + 65),75%,35%,.23),transparent 38%),
-    linear-gradient(160deg,#080d1c 0%,#0b1020 58%,#090e1b 100%);
-  background-attachment:fixed;
-  transition:background 1.2s ease;
-}
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.5;
-  background:
-    radial-gradient(circle at 20% 25%,var(--realm-glow),transparent 24%),
-    radial-gradient(circle at 82% 72%,hsla(calc(var(--realm-hue) + 120),80%,55%,.10),transparent 28%);
-  animation:realm-breathe 9s ease-in-out infinite alternate;
-}
-@keyframes realm-breathe{from{opacity:.25;transform:scale(1)}to{opacity:.72;transform:scale(1.06)}}
-.player{
-  position:relative;overflow:hidden;
-  background:
-    radial-gradient(circle at 90% 8%,hsla(calc(var(--realm-hue) + 55),95%,70%,.24),transparent 35%),
-    linear-gradient(125deg,hsla(var(--realm-hue),48%,27%,.96),#172641 58%,#102c3a);
-  border-color:hsla(var(--realm-hue),65%,70%,.32);
-  transition:background 1s,border-color 1s,box-shadow 1s;
-  box-shadow:0 12px 40px var(--realm-glow);
-}
-.player::after{
-  content:"";position:absolute;width:210px;height:210px;right:-80px;bottom:-120px;
-  border:1px solid hsla(var(--realm-hue),80%,85%,.22);border-radius:50%;
-  box-shadow:0 0 0 18px hsla(var(--realm-hue),80%,85%,.035),0 0 0 38px hsla(var(--realm-hue),80%,85%,.025);
-  pointer-events:none;
-}
-.realm-panel{
-  position:relative;z-index:1;margin-top:18px;padding:13px 14px;border-radius:13px;
-  background:rgba(5,12,26,.38);border:1px solid hsla(var(--realm-hue),70%,80%,.25);
-  backdrop-filter:blur(8px);
-}
-.realm-kicker{font-size:9px;letter-spacing:2px;color:#d4ddf7;opacity:.78}
-.realm-name{font-size:17px;font-weight:800;margin-top:5px;color:#fff;text-shadow:0 0 18px var(--realm-glow)}
-.realm-desc{font-size:10px;color:#c4d0e8;line-height:1.55;margin-top:5px}
-.realm-perk{font-size:10px;color:#f8e7a4;margin-top:9px}
-.realm-symbol{font-size:24px;float:right;margin-left:12px;filter:drop-shadow(0 0 10px var(--realm-glow))}
-.realm-level-dots{display:flex;gap:5px;margin-top:10px}
-.realm-level-dots span{height:4px;flex:1;border-radius:8px;background:#ffffff20}
-.realm-level-dots span.active{background:hsla(var(--realm-hue),95%,78%,.95);box-shadow:0 0 9px var(--realm-glow)}
-#breakthroughOverlay{
-  display:none;position:fixed;inset:0;z-index:99;background:rgba(2,5,15,.82);
-  backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px;
-}
-#breakthroughOverlay.show{display:flex;animation:veil-in .45s ease}
-@keyframes veil-in{from{opacity:0}to{opacity:1}}
-.breakthrough-card{
-  width:min(480px,100%);text-align:center;padding:28px 22px;border-radius:22px;
-  background:linear-gradient(145deg,#202b49,#10182b);border:1px solid hsla(var(--realm-hue),85%,78%,.55);
-  box-shadow:0 0 70px var(--realm-glow),0 24px 70px #0009;animation:breakthrough-pop .55s cubic-bezier(.2,.8,.2,1);
-}
-@keyframes breakthrough-pop{from{transform:translateY(18px) scale(.92);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-.breakthrough-seal{font-size:48px;filter:drop-shadow(0 0 18px var(--realm-glow));margin-bottom:12px}
-.breakthrough-kicker{font-size:10px;letter-spacing:3px;color:var(--gold)}
-.breakthrough-title{font-size:25px;font-weight:900;margin:9px 0}
-.breakthrough-desc{font-size:12px;line-height:1.7;color:#c7d2e8;margin:10px auto 18px;max-width:350px}
-.breakthrough-perk{font-size:11px;color:#f7dfa0;margin:0 auto 20px;padding:10px;border-radius:10px;background:#ffffff0b}
-body[data-realm="mortal"]{--realm-hue:32;--realm-glow:rgba(232,157,87,.2)}
-body[data-realm="qi"]{--realm-hue:155;--realm-glow:rgba(76,220,171,.2)}
-body[data-realm="foundation"]{--realm-hue:194;--realm-glow:rgba(82,204,235,.23)}
-body[data-realm="core"]{--realm-hue:258;--realm-glow:rgba(167,139,250,.25)}
-body[data-realm="soul"]{--realm-hue:48;--realm-glow:rgba(250,204,21,.22)}
-body[data-realm="spirit"]{--realm-hue:282;--realm-glow:rgba(208,145,255,.24)}
-body[data-realm="heaven"]{--realm-hue:215;--realm-glow:rgba(104,170,255,.28)}
-body[data-realm="ascendant"]{--realm-hue:330;--realm-glow:rgba(255,126,198,.25)}
-@media(max-width:750px){.realm-panel{margin-top:14px}}
 
 </style>
 </head>
@@ -534,7 +490,7 @@ body[data-realm="ascendant"]{--realm-hue:330;--realm-glow:rgba(255,126,198,.25)}
 <header>
   <div>
     <div class="logo">✦ DOMPETPELAJAR</div>
-    <p class="subtitle" id="worldSubtitle">Level up your money, level up your life.</p>
+    <p class="subtitle">Level up your money, level up your life.</p>
   </div>
   <div class="date" id="date"></div>
 </header>
@@ -545,7 +501,11 @@ body[data-realm="ascendant"]{--realm-hue:330;--realm-glow:rgba(255,126,198,.25)}
   <div class="card player">
     <div class="level" id="level">LEVEL 1</div>
     <div class="rank" id="rank">Pemula Finansial</div>
-    <div class="muted">Your personal growth journey.</div>
+    <div class="kasta-line">
+      <span class="kasta-emblem" id="kastaName">✦ MORTAL</span>
+      <span id="kastaRange">Level 1–3 · Awal perjalanan</span>
+    </div>
+    <div class="muted" style="margin-top:8px">Your personal growth journey.</div>
 
     <div class="xp-info">
       <span>EXPERIENCE POINT</span>
@@ -570,15 +530,6 @@ body[data-realm="ascendant"]{--realm-hue:330;--realm-glow:rgba(255,126,198,.25)}
         <span>Misi selesai</span>
       </div>
     </div>
-
-    <div class="realm-panel">
-      <span class="realm-symbol" id="realmSymbol">🏕️</span>
-      <div class="realm-kicker" id="realmKicker">CURRENT CULTIVATION REALM</div>
-      <div class="realm-name" id="realmName">Ranah Fana</div>
-      <div class="realm-desc" id="realmDescription">Perjalanan dimulai dari langkah paling sederhana.</div>
-      <div class="realm-perk" id="realmPerk">✦ Terbuka: Catatan perjalanan</div>
-      <div class="realm-level-dots" id="realmDots"><span class="active"></span><span></span><span></span></div>
-    </div>
   </div>
 
   <div class="card">
@@ -594,11 +545,23 @@ body[data-realm="ascendant"]{--realm-hue:330;--realm-glow:rgba(255,126,198,.25)}
         <span>↘ Pengeluaran</span>
         <strong class="red" id="expense">Rp0</strong>
       </div>
-          </div>
+    </div>
   </div>
 
 </section>
 
+<section class="card caste-perks">
+  <div class="section-head">
+    <h3>✧ Perk Kasta</h3>
+    <span class="badge" id="perkStatus">Kemampuan berkembang bersama level</span>
+  </div>
+  <div class="perk-grid" id="perkGrid"></div>
+  <div class="muted" id="monthlyInsight" style="margin-top:12px"></div>
+  <div class="perk-action">
+    <button class="secondary" id="exportData" type="button" disabled>🔒 Ekspor Data · Level 10</button>
+    <span class="muted" id="exportHint">Terbuka di kasta Golden Core.</span>
+  </div>
+</section>
 
 <!-- PERSONAL GROWTH TRACKER -->
 <section class="card">
@@ -637,6 +600,7 @@ body[data-realm="ascendant"]{--realm-hue:330;--realm-glow:rgba(255,126,198,.25)}
             <option value="Intelektual">🧠 Intelektual & Akademik</option>
             <option value="Fisik">💪 Fisik & Kesehatan</option>
             <option value="Karier">🛠️ Keterampilan & Karier</option>
+
             <option value="Karakter">🧭 Mental & Karakter</option>
             <option value="Spiritual">🌙 Spiritual</option>
             <option value="Finansial">💰 Finansial & Kemandirian</option>
@@ -707,6 +671,7 @@ body[data-realm="ascendant"]{--realm-hue:330;--realm-glow:rgba(255,126,198,.25)}
     <div class="list" id="growthHistoryList"></div>
   </details>
 </section>
+
 
 <main class="layout">
 
@@ -845,82 +810,61 @@ body[data-realm="ascendant"]{--realm-hue:330;--realm-glow:rgba(255,126,198,.25)}
   </section>
 
   <!-- HISTORY -->
-  <section class="card">
-    <div class="section-head">
-      <h3>📊 Riwayat Transaksi</h3>
+  <details class="card fold-card">
+    <summary><h3>📊 Riwayat Transaksi</h3><span class="fold-hint" id="transactionCount">Buka untuk melihat detail</span></summary>
+    <div class="history-tools">
+      <input id="transactionSearch" type="search" placeholder="Cari nama atau kategori...">
+      <select id="transactionFilter" aria-label="Filter transaksi">
+        <option value="all">Semua transaksi</option>
+        <option value="in">Pemasukan</option>
+        <option value="out">Pengeluaran</option>
+      </select>
     </div>
     <div class="list" id="moneyList"></div>
-  </section>
+  </details>
 
   <!-- BUDGET -->
-  <section class="card">
-    <div class="section-head">
-      <h3>🎯 Anggaran Harian</h3>
-    </div>
-
+  <details class="card fold-card">
+    <summary><h3>🎯 Anggaran Harian</h3><span class="fold-hint">Atur batas pengeluaran</span></summary>
     <label>Batas pengeluaran (Rp)</label>
     <input type="number" id="budgetInput" min="0" placeholder="Contoh: 20000">
-
     <button class="secondary" id="saveBudget">Simpan Anggaran</button>
-
-    <div class="progress">
-      <div class="bar" id="budgetBar"></div>
-    </div>
-
+    <div class="progress"><div class="bar" id="budgetBar"></div></div>
     <div class="muted" id="budgetText">Belum ada anggaran.</div>
-  </section>
+  </details>
 
   <!-- SAVING GOALS -->
-  <section class="card">
-    <div class="section-head">
-      <h3>🏆 Saving Goals</h3>
-    </div>
-
+  <details class="card fold-card">
+    <summary><h3>🏆 Saving Goals</h3><span class="fold-hint">Target dan progres tabungan</span></summary>
     <details>
       <summary>＋ Tambah Target Tabungan</summary>
       <form id="goalForm" class="form-area">
         <label>Nama target</label>
         <input id="goalName" placeholder="Contoh: Beli buku" required>
-
         <label>Target uang (Rp)</label>
         <input id="goalTarget" type="number" min="1" required>
-
         <button class="add" type="submit">Buat Target</button>
       </form>
     </details>
-
     <div class="list" id="goalList"></div>
-  </section>
+  </details>
 
   <!-- ACHIEVEMENTS -->
-  <section class="card">
-        <div class="section-head">
-      <h3>🏅 Achievements</h3>
-      <span class="badge" id="achievementCount">0 unlocked</span>
-    </div>
+  <details class="card fold-card">
+    <summary><h3>🏅 Achievements</h3><span class="fold-hint" id="achievementCount">0 unlocked</span></summary>
     <div class="list" id="achievementList"></div>
-  </section>
+  </details>
 
 </div>
 </main>
 
 <div class="footer">
-  DOMPETPELAJAR · FINANCE & PERSONAL GROWTH EDITION<br>
-  Data tersimpan lokal di browser ini. <button class="secondary" type="button" onclick="exportAllData()" style="margin-top:10px">⬇ Backup seluruh data</button>
+  DOMPETPELAJAR V4 · CULTIVATION PRODUCTIVITY EDITION<br>
+  Data tersimpan secara lokal pada browser ini.
 </div>
 
 </div>
 
-<div id="breakthroughOverlay" role="dialog" aria-modal="true" aria-labelledby="breakthroughTitle">
-  <div class="breakthrough-card">
-    <div class="breakthrough-seal" id="breakthroughSymbol">🌄</div>
-    <div class="breakthrough-kicker">REALM BREAKTHROUGH</div>
-    <div class="breakthrough-title" id="breakthroughTitle">Terobosan Level!</div>
-    <div class="breakthrough-desc" id="breakthroughDescription">Perjalananmu memasuki tahap baru.</div>
-    <div class="breakthrough-perk" id="breakthroughPerk">Fasilitas baru telah terbuka.</div>
-    <button class="add" id="closeBreakthrough" type="button">Lanjutkan perjalanan</button>
-  </div>
-</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -957,6 +901,13 @@ function todayFromDate(d) {
 
 function load(key, fallback) {
   try {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
     const value = JSON.parse(localStorage.getItem(key));
     return value ?? fallback;
   } catch {
@@ -1037,197 +988,99 @@ $("growthDate").value=today();
    XP SYSTEM
 ========================= */
 
-const realmStages = [
-  {
-    key:"mortal", name:"Ranah Fana", symbol:"🏕️",
-    description:"Sebuah desa kecil di kaki pegunungan. Belum ada kekuatan besar di sini; hanya tekad untuk memulai dan membangun fondasi diri.",
-    perk:"Berkah: Catatan perjalanan dan pengumpulan pengalaman.",
-    environment:"Kabut pagi, cahaya matahari hangat, dan suasana desa pegunungan."
-  },
-  {
-    key:"qi", name:"Ranah Pengumpulan Qi", symbol:"🌿",
-    description:"Energi kehidupan mulai terasa. Disiplin kecil yang kamu kumpulkan perlahan membentuk aliran kekuatan pertamamu.",
-    perk:"Berkah: Aura Qi dan statistik kegiatan spontan.",
-    environment:"Hutan roh, dedaunan bercahaya, dan kabut hijau zamrud."
-  },
-  {
-    key:"foundation", name:"Ranah Pendirian Fondasi", symbol:"⛰️",
-    description:"Fondasi telah terbentuk. Kamu mulai membangun sistem yang lebih kuat, terarah, dan tidak mudah goyah.",
-    perk:"Berkah: Peta ranah dan gelar Penegak Fondasi.",
-    environment:"Puncak gunung, kuil kuno, awan tinggi, dan angin biru."
-  },
-  {
-    key:"core", name:"Ranah Pembentukan Inti", symbol:"🔮",
-    description:"Berbagai pengalaman mulai menyatu menjadi inti kekuatan. Pengetahuan, kebiasaan, dan kemampuan saling menguatkan.",
-    perk:"Berkah: Inti energi dan efek visual kristal.",
-    environment:"Danau spiritual, kristal bercahaya, dan langit ungu."
-  },
-  {
-    key:"soul", name:"Ranah Jiwa Baru Lahir", symbol:"☀️",
-    description:"Kesadaran berkembang melampaui batas sebelumnya. Kamu mulai melihat tujuan jangka panjang dengan lebih jernih.",
-    perk:"Berkah: Arsip pencapaian dan aura emas.",
-    environment:"Lembah keemasan, matahari agung, dan reruntuhan surgawi."
-  },
-  {
-    key:"spirit", name:"Ranah Transformasi Roh", symbol:"🌌",
-    description:"Perjalanan memasuki wilayah yang lebih tinggi. Kekuatan bukan lagi sekadar usaha, tetapi hasil dari proses panjang.",
-    perk:"Berkah: Gelar Transformasi Roh dan atmosfer kosmik.",
-    environment:"Langit nebula, pulau melayang, dan bintang-bintang roh."
-  },
-  {
-    key:"heaven", name:"Ranah Kesengsaraan Surgawi", symbol:"⚡",
-    description:"Ujian semakin besar. Ketekunan dan keseimbangan menjadi kunci untuk melangkah lebih jauh.",
-    perk:"Berkah: Aura petir surgawi dan lambang penakluk ujian.",
-    environment:"Istana awan, badai petir, dan cahaya biru langit."
-  },
-  {
-    key:"ascendant", name:"Ranah Ascendant", symbol:"👑",
-    description:"Sebuah tingkatan baru telah terbuka. Perjalanan belum berakhir; cakrawala berikutnya menunggu untuk dijelajahi.",
-    perk:"Berkah: Mahkota Ascendant dan aura transenden.",
-    environment:"Gerbang dimensi, galaksi luas, dan cahaya fajar abadi."
-  }
-];
-
-const levelRewards = {
-  1:"Awal perjalanan: Dashboard dasar terbuka.",
-  2:"Aura pertama: Efek cahaya karakter diperkuat.",
-  3:"Peta perjalanan: Penanda progres ranah aktif.",
-  4:"Hutan Roh: Tema alam dan statistik kegiatan spontan terbuka.",
-  5:"Mata Qi: Kilau energi dan gelar Penjelajah Qi.",
-  6:"Mata air spiritual: Panel ringkasan perkembangan diperindah.",
-  7:"Pendirian Fondasi: Lingkungan pegunungan terbuka.",
-  8:"Prasasti fondasi: Riwayat pencapaian mendapat lambang khusus.",
-  9:"Formasi pelindung: Efek batas panel berevolusi.",
-  10:"Pembentukan Inti: Tema kristal dan aura inti terbuka.",
-  11:"Inti spiritual: Lambang XP berevolusi.",
-  12:"Ruang meditasi: Ringkasan perjalanan mendapat tampilan baru.",
-  13:"Jiwa Baru Lahir: Gerbang langit keemasan terbuka.",
-  14:"Kesadaran jiwa: Efek cahaya emas diperkuat.",
-  15:"Arsip jiwa: Gelar pencapaian tingkat tinggi terbuka.",
-  16:"Transformasi Roh: Tema kosmik terbuka.",
-  17:"Sayap roh: Aura bintang berevolusi.",
-  18:"Domain roh: Efek atmosfer diperluas.",
-  19:"Kesengsaraan Surgawi: Tema petir surgawi terbuka.",
-  20:"Tubuh surgawi: Lambang level berevolusi.",
-  21:"Gerbang langit: Efek terobosan tingkat tinggi terbuka.",
-  22:"Ascendant: Tema transenden terbuka.",
-  23:"Mahkota dimensi: Gelar Ascendant diperoleh.",
-  24:"Cakrawala baru: Aura akhir berevolusi."
-};
-
-function getRealmInfo(level) {
-  const stageIndex = Math.min(Math.floor((level - 1) / 3), realmStages.length - 1);
-  const stage = realmStages[stageIndex];
-  const levelInStage = ((level - 1) % 3) + 1;
-  const nextLevel = level + 1;
-  const nextRealm = Math.floor((nextLevel - 1) / 3) > stageIndex;
-  return {
-    ...stage,
-    stageIndex,
-    levelInStage,
-    stageProgress: levelInStage / 3 * 100,
-    nextRealm,
-    reward: levelRewards[level] || "Penguatan aura dan peningkatan atmosfer ranah."
-  };
-}
-
-function applyRealmTheme(level) {
-  const info = getRealmInfo(level);
-  document.body.dataset.level = String(level);
-  document.body.dataset.realm = info.key;
-
-  // Setiap level mengubah intensitas dan nuansa cahaya, sedangkan setiap ranah
-  // mengganti palet utama serta suasana visual secara lebih terasa.
-  const baseHues = {
-    mortal:32, qi:155, foundation:194, core:258,
-    soul:48, spirit:282, heaven:215, ascendant:330
-  };
-  const hueOffsets = [0, 8, 16];
-  const hueNumber = baseHues[info.key] + hueOffsets[info.levelInStage - 1];
-  document.body.style.setProperty("--realm-hue", String(hueNumber));
-  document.body.style.setProperty("--realm-glow",
-    `hsla(${hueNumber}, 80%, ${18 + info.levelInStage * 4}%, .24)`);
-}
-
-function renderRealm(level) {
-  const info = getRealmInfo(level);
-  applyRealmTheme(level);
-  $("realmSymbol").textContent = info.symbol;
-  $("realmName").textContent = info.name;
-  $("realmDescription").textContent = info.description;
-  $("realmPerk").textContent = "✦ " + info.reward;
-  $("realmKicker").textContent = `CURRENT REALM · LEVEL ${level}`;
-  $("worldSubtitle").textContent = info.environment;
-  $("realmDots").replaceChildren();
-  for (let i = 1; i <= 3; i++) {
-    const dot = document.createElement("span");
-    if (i <= info.levelInStage) dot.className = "active";
-    $("realmDots").append(dot);
-  }
-}
-
-function showBreakthrough(level) {
-  const info = getRealmInfo(level);
-  $("breakthroughSymbol").textContent = info.symbol;
-  $("breakthroughTitle").textContent = info.nextRealm
-    ? "Terobosan Ranah!"
-    : "Level Meningkat!";
-  $("breakthroughDescription").textContent =
-    `Kamu mencapai Level ${level} dan memasuki ${info.name}. ${info.environment}`;
-  $("breakthroughPerk").textContent = "✦ " + info.reward;
-  $("breakthroughOverlay").classList.add("show");
-}
-
-$("closeBreakthrough").onclick = () => {
-  $("breakthroughOverlay").classList.remove("show");
-};
-$("breakthroughOverlay").onclick = e => {
-  if (e.target.id === "breakthroughOverlay") {
-    $("breakthroughOverlay").classList.remove("show");
-  }
-};
-
 function giveXP(id, amount, reason) {
   if(rewarded.includes(id)) return;
 
-  const previousLevel = Math.floor(xp / 100) + 1;
   xp += amount;
   rewarded.push(id);
-    history.push({
+
+  history.push({
     date:today(),
     reason,
     amount
   });
 
   save();
+  notify("Misi selesai! +"+amount+" XP 🎉");
   render();
-
-  const newLevel = Math.floor(xp / 100) + 1;
-  if (newLevel > previousLevel) {
-    showBreakthrough(newLevel);
-  } else {
-    notify("Misi selesai! +" + amount + " XP ✨");
-  }
 }
 
 function levelData() {
-  const level = Math.floor(xp / 100) + 1;
-  const current = xp % 100;
+  const level=Math.floor(xp/100)+1;
+  const current=xp%100;
 
-  const info = getRealmInfo(level);
-  $("level").textContent = "LEVEL " + level;
-  $("rank").textContent = info.name;
-  $("totalXP").textContent = xp;
-  $("xpText").textContent = current + " / 100 XP";
-  $("xpBar").style.width = current + "%";
-  renderRealm(level);
+  const castes = [
+    {id:"mortal", name:"Mortal", emblem:"✦", range:"Level 1–3 · Awal perjalanan", title:["Pemula Finansial","Pengamat Keuangan","Pelajar Disiplin"]},
+    {id:"qi", name:"Qi Refinement", emblem:"❖", range:"Level 4–6 · Penguatan dasar", title:["Pengumpul Qi","Pengatur Keuangan","Strategist Produktif"]},
+    {id:"foundation", name:"Foundation Establishment", emblem:"✧", range:"Level 7–9 · Fondasi kokoh", title:["Pembentuk Fondasi","Perencana Andal","Ahli Keseimbangan"]},
+    {id:"golden", name:"Golden Core", emblem:"✺", range:"Level 10–12 · Inti kekuatan", title:["Inti Keuangan","Master Produktivitas","Penguasa Disiplin"]},
+    {id:"nascent", name:"Nascent Soul", emblem:"☼", range:"Level 13+ · Tahap lanjutan", title:["Jiwa Terbangun","Arsitek Kehidupan","Legenda Pelajar"]}
+  ];
+  const caste = castes[Math.min(Math.floor((level-1)/3),castes.length-1)];
+  const rank = caste.title[(level-1)%3];
 
-  const completed = missions.filter(m =>
-    m.donePeriod === periodKey(m.period)
-  ).length + studies.filter(s => s.done).length;
+  document.body.dataset.kasta = caste.id;
+  $("level").textContent="LEVEL "+level;
+  $("rank").textContent=rank;
+  $("kastaName").textContent=caste.emblem+" "+caste.name.toUpperCase();
+  $("kastaRange").textContent=caste.range;
+  renderCasteFeatures(level);
+  $("totalXP").textContent=xp;
+  $("xpText").textContent=current+" / 100 XP";
+  $("xpBar").style.width=current+"%";
 
-  $("doneCount").textContent = completed;
-  $("streak").textContent = streakCount() + " 🔥";
+  const completed=missions.filter(m=>
+    m.donePeriod===periodKey(m.period)
+  ).length + studies.filter(s=>s.done).length;
+
+  $("doneCount").textContent=completed;
+
+  $("streak").textContent=streakCount()+" 🔥";
+}
+
+function renderCasteFeatures(level) {
+  const perks = [
+    {min:1, title:"Mortal · Fondasi", desc:"Misi harian, jadwal belajar, habit, dan pencatatan uang."},
+    {min:4, title:"Qi Refinement · Pencarian transaksi", desc:"Cari transaksi berdasarkan nama/kategori dan saring pemasukan atau pengeluaran."},
+    {min:7, title:"Foundation · Insight bulanan", desc:"Lihat total pemasukan dan pengeluaran pada bulan berjalan."},
+    {min:10, title:"Golden Core · Ekspor data", desc:"Unduh cadangan data DompetPelajar dalam format JSON."},
+    {min:13, title:"Nascent Soul · Pengelolaan lanjutan", desc:"Tahap berikutnya untuk fitur impor dan pemulihan data."}
+  ];
+  const grid=$("perkGrid");
+  grid.replaceChildren();
+  perks.forEach(perk=>{
+    const unlocked=level>=perk.min;
+    const box=document.createElement("div");
+    box.className="perk"+(unlocked?"":" locked");
+    const title=document.createElement("strong");
+    title.textContent=(unlocked?"✓ ":"🔒 ")+perk.title;
+    const desc=document.createElement("span");
+    desc.textContent=perk.desc;
+    box.append(title,desc);
+    grid.append(box);
+  });
+
+  const search=$("transactionSearch");
+  const filter=$("transactionFilter");
+  const searchUnlocked=level>=4;
+  search.disabled=!searchUnlocked;
+  filter.disabled=!searchUnlocked;
+  search.placeholder=searchUnlocked?"Cari nama atau kategori...":"Terbuka mulai Level 4";
+  if(!searchUnlocked) { search.value=""; filter.value="all"; }
+
+  const exportButton=$("exportData");
+  exportButton.disabled=level<10;
+  exportButton.textContent=level>=10?"⬇ Ekspor Data JSON":"🔒 Ekspor Data · Level 10";
+  $("exportHint").textContent=level>=10?"Cadangkan data sebelum berpindah browser/perangkat.":"Terbuka saat mencapai Golden Core (Level 10).";
+
+  if(level>=7) {
+    const month=today().slice(0,7);
+    const monthIncome=transactions.filter(t=>t.type==="in"&&t.date.startsWith(month)).reduce((sum,t)=>sum+t.amount,0);
+    const monthExpense=transactions.filter(t=>t.type==="out"&&t.date.startsWith(month)).reduce((sum,t)=>sum+t.amount,0);
+    $("monthlyInsight").textContent="📈 Insight bulan ini: pemasukan "+money(monthIncome)+" · pengeluaran "+money(monthExpense)+" · selisih "+money(monthIncome-monthExpense)+".";
+  } else {
+    $("monthlyInsight").textContent="🔒 Insight keuangan bulanan terbuka mulai Foundation Establishment (Level 7).";
+  }
 }
 
 function periodKey(period) {
@@ -1355,6 +1208,8 @@ $("dailyForm").onsubmit=e=>{
 
   addMission(name,"daily");
   $("dailyName").value="";
+};
+
   notify("Misi harian ditambahkan!");
 };
 
@@ -1493,7 +1348,8 @@ function renderHabits() {
     list.append(empty);
     return;
   }
-    habits.forEach(h=>{
+
+  habits.forEach(h=>{
     const done=h.logs.includes(today());
 
     const row=document.createElement("div");
@@ -1592,14 +1448,23 @@ function renderFinance() {
   const list=$("moneyList");
   list.replaceChildren();
 
-  if(!transactions.length) {
+  const search = ($("transactionSearch")?.value || "").trim().toLowerCase();
+  const filter = $("transactionFilter")?.value || "all";
+  const filtered = [...transactions].reverse().filter(t => {
+    const matchesSearch = (t.name+" "+t.category).toLowerCase().includes(search);
+    const matchesType = filter==="all" || t.type===filter;
+    return matchesSearch && matchesType;
+  });
+  $("transactionCount").textContent = transactions.length+" transaksi · "+filtered.length+" ditampilkan";
+
+  if(!filtered.length) {
     const empty=document.createElement("div");
     empty.className="empty";
-    empty.textContent="Belum ada transaksi.";
+    empty.textContent=transactions.length ? "Tidak ada transaksi yang cocok." : "Belum ada transaksi.";
     list.append(empty);
   }
 
-  [...transactions].reverse().slice(0,30).forEach(t=>{
+  filtered.slice(0,100).forEach(t=>{
     const row=document.createElement("div");
     row.className="item";
 
@@ -1646,10 +1511,31 @@ function renderFinance() {
   $("budgetBar").style.background=
     percent>100?"var(--red)":"linear-gradient(90deg,var(--green),var(--cyan))";
 
+  
   $("budgetText").textContent=budget>0
     ?"Terpakai "+money(spent)+" dari "+money(budget)+" ("+Math.round(percent)+"%)"
     :"Belum ada anggaran.";
 }
+
+$("transactionSearch").addEventListener("input",renderFinance);
+$("transactionFilter").addEventListener("change",renderFinance);
+
+$("exportData").onclick=()=>{
+  if(xp<900) { notify("Fitur ekspor terbuka mulai Level 10."); return; }
+  const backup={
+    exportedAt:new Date().toISOString(),
+    version:"DompetPelajar V4",
+    missions,studies,habits,transactions,goals,budget,xp,history,rewarded
+  };
+  const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="dompetpelajar-backup-"+today()+".json";
+  a.click();
+  URL.revokeObjectURL(url);
+  notify("Cadangan data berhasil dibuat.");
+};
 
 $("saveBudget").onclick=()=>{
   const n=Number($("budgetInput").value);
@@ -1792,7 +1678,8 @@ function renderAchievements() {
 
   const completedStudy=studies.filter(s=>s.done).length;
   const completedHabits=habits.reduce((s,h)=>s+h.logs.length,0);
-    const achievements=[
+
+  const achievements=[
     {
       name:"First Step",
       desc:"Dapatkan 10 XP.",
@@ -1861,7 +1748,6 @@ function renderAchievements() {
   });
 }
 
-
 /* =========================
    PERSONAL GROWTH TRACKER
 ========================= */
@@ -1925,6 +1811,7 @@ $("growthForm").onsubmit = e => {
   $("growthNote").value = "";
   $("growthDate").value = today();
   renderGrowth();
+
   // XP dan notifikasi ditangani oleh giveXP().
 };
 
@@ -2087,6 +1974,7 @@ function exportAllData() {
   URL.revokeObjectURL(url);
 }
 
+
 /* =========================
    MAIN RENDER
 ========================= */
@@ -2107,3 +1995,4 @@ render();
 
 </script>
 </body>
+</html>
