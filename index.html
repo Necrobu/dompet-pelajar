@@ -300,8 +300,6 @@ label {
   overflow-wrap:anywhere;
 }
 
-}
-
 .item-meta {
   font-size:10px;
   color:var(--muted);
@@ -901,13 +899,6 @@ function todayFromDate(d) {
 
 function load(key, fallback) {
   try {
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : fallback;
-  } catch {
-    return fallback;
-  }
-}
-
     const value = JSON.parse(localStorage.getItem(key));
     return value ?? fallback;
   } catch {
@@ -1208,8 +1199,6 @@ $("dailyForm").onsubmit=e=>{
 
   addMission(name,"daily");
   $("dailyName").value="";
-};
-
   notify("Misi harian ditambahkan!");
 };
 
